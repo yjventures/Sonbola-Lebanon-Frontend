@@ -201,7 +201,7 @@ export default function Header() {
                 onClick={() => {
                   navigate('/signin')
                 }}
-                className='bg-buttons text-primary-text-color text-[12px] font-[700] px-4 py-2 uppercase flex items-center gap-2 transition '>
+                className='bg-[#A6E66E] text-[#364253] text-[12px] font-[700] px-4 py-2 uppercase hidden md:flex items-center gap-2 transition hover:bg-[#aef86d]'>
                 Sign in
               </button> :
               <div
@@ -222,7 +222,7 @@ export default function Header() {
           }
 
           {/* mobile burger */}
-          <div className="flex lg:hidden">
+          <div className="flex md:hidden">
             <button
               type="button"
               className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
@@ -272,29 +272,46 @@ export default function Header() {
           </div>
           <div className="mt-6 flow-root">
             <div className="-my-6 divide-y text-primary-text-color">
-              <div className="py-6">
-                <NavLink to='/cart' className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7" onClick={() => setMobileMenuOpen(false)}>
-                  Cart
-                </NavLink>
-                <NavLink to='/wishlist' className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 " onClick={() => setMobileMenuOpen(false)}>
-                  Wishlist
-                </NavLink>
-                <NavLink to='/profile' className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 " onClick={() => setMobileMenuOpen(false)}>
+              <div className="py-6 flex flex-col gap-2 " >
+                <NavLink to={user ? '/profile' : '/signin'} className="-mx-3 block rounded-sm px-3 py-2.5 text-base font-semibold leading-7 border-b-[2px]" onClick={() => setMobileMenuOpen(false)}>
                   Profile
                 </NavLink>
 
-                {/* make this conditional depending on user state */}
-                <NavLink to='/signin' className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 " onClick={() => setMobileMenuOpen(false)}>
-                  Login
+                <NavLink to={user ? '/wishlist' : '/signin'} className="-mx-3 block rounded-sm px-3 py-2.5 text-base font-semibold leading-7 border-b-[2px]" onClick={() => setMobileMenuOpen(false)}>
+                  Wishlist
                 </NavLink>
 
-                <NavLink to='/signup' className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 " onClick={() => setMobileMenuOpen(false)}>
-                  Register
+                <NavLink to={user ? '/cart' : '/signin'} className={`-mx-3 block rounded-sm px-3 py-2.5 text-base font-semibold leading-7 ${!user && 'border-b-[2px]'}`} onClick={() => setMobileMenuOpen(false)}>
+                  Cart
                 </NavLink>
 
+                {
+                  user ?
+                    <div className='flex justify-start items-start'>
+                      <button
+                        onClick={() => {
+                          localStorage.clear();
+                          setMobileMenuOpen(false)
+                        }}
+                        className='bg-buttons py-2 w-full rounded-sm text-buttons-color'
+                      >
+                        Logout
+                      </button>
+                    </div>
+                    :
+                    <>
+                      {/* make this conditional depending on user state */}
+                      <NavLink to='/signin' className="-mx-3 block rounded-sm px-3 py-2.5 text-base font-semibold leading-7 border-b-[2px]" onClick={() => setMobileMenuOpen(false)}>
+                        Sign In
+                      </NavLink>
 
+                      <NavLink to='/signup' className="-mx-3 block rounded-sm px-3 py-2.5 text-base font-semibold leading-7 border-b-[2px]" onClick={() => setMobileMenuOpen(false)}>
+                        Sign Up
+                      </NavLink>
+                    </>
+                }
 
-                <div className='flex justify-start items-center mt-2'>
+                <div className='flex justify-start items-center mt-4 absolute bottom-10'>
                   <span>Follow us: </span>
                   <a href="#" className='mx-1.5'>
                     <IoLogoTwitter className='w-[18px] h-[18px]' />
